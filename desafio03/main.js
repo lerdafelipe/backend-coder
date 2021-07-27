@@ -1,8 +1,12 @@
 const end = ()=>{console.log("Finalizó el proceso")}
 const showWords = (e)=>{console.log(e)}
 
-const returnar = (string, i, callback)=>{
+const returnar = (string, callback, i, ms)=>{
     const arrayString = string.split(' ');
+
+    if(ms == undefined){
+        ms = 1000;
+    }
 
     if(arrayString.length == i){
         console.log('Palabras: ', arrayString.length);
@@ -11,10 +15,10 @@ const returnar = (string, i, callback)=>{
     }
 
     setTimeout(()=>{
-        callback(arrayString[i])
-        returnar(string, i+1, callback)
-    }, 1000)
+        callback(arrayString[i]);
+        returnar(string, callback, i+1, ms);
+    }, ms)
 }
 
-returnar("Hola como estas", 0, showWords);
+returnar("Hola como estas", showWords, 0, 5550);
 //
