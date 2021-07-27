@@ -17,4 +17,4 @@ const returnar = (string, i, callback)=>{
 }
 
 returnar("Hola como estas", 0, showWords);
-//Settimeout con un string, ese string es cortado en los espacios y forma un array, ese array, recorrerlo con forof consolenado  cada una y tener el numero de palabras para pasarlo a callback. RETURNAR=>(string, callback). CALLBACK(numero)=>Returnar un finalizó la operación, palabras: numero de palabra del sting.
+//
