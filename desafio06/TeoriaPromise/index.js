@@ -3,7 +3,7 @@ const fs = require('fs');
 //Leer archivo usando promise
 function leerTC(){
     fs.promises.readFile('ruta del archivo', 'utf-8')
-    .then(contenido =>{ console.log(contenido)})
+    .then(contenido =>( console.log(contenido)))
     .catch(err=>(console.log('Error de lectura', err)));
 }
 
@@ -31,7 +31,7 @@ async function add(){
 //Sobreescribir una archivo con promises
 function addTC(){
     fs.promises.appendFile('Ruta al archivo', 'Texto a agregar')
-    .then(contenido =>{ console.log('Texto agregado')})
+    .then(contenido =>( console.log('Texto agregado')))
     .catch(err=>(console.log('No pude escribir, hazlo de nuevo.', err)));
 }
 /////////////////////////////////////////
@@ -51,7 +51,7 @@ async function write(){
 //Escribir una archivo con promises
 function escribirTC(){
     fs.promises.writeFile('Ruta al archivo', 'Texto a Escribir')
-    .then(contenido =>{ console.log('Texto creado')})
+    .then(contenido =>( console.log('Texto creado')))
     .catch(err=>(console.log('No pude escribir, hazlo de nuevo.', err)));
 }
 /////////////////////////////////////////
@@ -70,6 +70,6 @@ async function renameFile(){
 //Renombrar archivo con promises
 function renameTC(){
     fs.promises.rename('Ruta al archivo vieja', 'Ruta nueva al archivo')
-    .then(contenido =>{ console.log('archivo renombrado')})
+    .then(contenido =>( console.log('archivo renombrado')))
     .catch(err=>(console.log('No pude renombrar.', err)));
 }

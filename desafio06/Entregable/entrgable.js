@@ -4,13 +4,13 @@ class Archivo{
     constructor(file){
         this.file = file;
     }
-    guardar(product){
+    async guardar(product){
         if(fs.existsSync(`./${this.file}.txt`) === true){
-            fs.promises.appendFile(`./${this.file}.txt`, `, ${JSON.stringify(product, null, '\t')}`)
+            await fs.promises.appendFile(`./${this.file}.txt`, `, ${JSON.stringify(product, null, '\t')}`)
             .then(console.log('Nuevo producto agregado'))
             .catch('Error en agregar nuevo producto');
         }else{
-            fs.promises.writeFile(`./${this.file}.txt`, JSON.stringify(product, null, '\t'))
+            await fs.promises.writeFile(`./${this.file}.txt`, JSON.stringify(product, null, '\t'))
             .then(console.log('Archivo creado y elemento guardado'))
             .catch(console.log('Error al guardar'));
         }
@@ -31,3 +31,4 @@ class Archivo{
 let archivo = new Archivo('productos');
 archivo.guardar({title: 'Perfume',price: 352,thumbnail: 'img/perfume'});
 archivo.leer();
+//archivo.borrar();
