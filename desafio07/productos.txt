@@ -1,0 +1,13 @@
+[{
+	"title": "Perfume",
+	"price": 352,
+	"thumbnail": "img/perfume"
+}, {
+	"title": "Yerba",
+	"price": 419,
+	"thumbnail": "img/Yerba"
+}, {
+	"title": "Comida",
+	"price": 27,
+	"thumbnail": "img/comida"
+}]
