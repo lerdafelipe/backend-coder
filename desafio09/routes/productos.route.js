@@ -32,10 +32,10 @@ router.get('/:id', (req, res)=>{
 });
 
 //Ruta post para guardar un product
-router.post('/guardar', (req, res)=>{
-    let newProduct = {id: `${productos.length+1}`, title: 'vinagre', price: 325, thumbnail: 'img/vinagre'};
-    productos.push(newProduct);
-    res.json(newProduct);
+router.post('', (req, res)=>{
+    let newProduct = {id: productos.length+1, title: '', price: '', thumbnail: ''}
+    //productos.push(newProduct);
+    res.send('producto enviado');
 });
 
 //Ruta post para actualizar un product

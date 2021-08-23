@@ -8,6 +8,18 @@
 </head>
 <body>
     <h1>Desafio 09 Curso Backend Coderhouse</h1>
+
+    <form action="/productos" method="POST">
+        <input type="text" name="title" placeholder="Name">
+        <input type="number" name="price" placeholder="Price">
+        <input type="text" name="url" placeholder="Url Img">
+        <input type="submit">
+    </form>
+    
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name='myfile'>
+        <input type="submit">
+    </form>
     
 </body>
 </html>

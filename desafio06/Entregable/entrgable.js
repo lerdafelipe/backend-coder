@@ -30,5 +30,7 @@ class Archivo{
 
 let archivo = new Archivo('productos');
 archivo.guardar({title: 'Perfume',price: 352,thumbnail: 'img/perfume'});
-archivo.leer();
+archivo.guardar({title: 'Comida',price: 27,thumbnail: 'img/comida'});
+archivo.guardar({title: 'Yerba',price: 419,thumbnail: 'img/Yerba'});
+//archivo.leer();
 //archivo.borrar();
