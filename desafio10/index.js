@@ -11,10 +11,10 @@ const multer = require('multer');
 const handlebars = require('express-handlebars');
 
 const productos = [
-    /*{id: 1, title: 'Azúcar', price: 325, thumbnail: 'img/azu'},
+    {id: 1, title: 'Azúcar', price: 325, thumbnail: 'img/azu'},
     {id: 2, title: 'yerba', price: 325, thumbnail: 'img/yer'},
     {id: 3, title: 'nesquik', price: 325, thumbnail: 'img/nes'},
-    {id: 4, title: 'té', price: 325, thumbnail: 'img/te'},*/
+    {id: 4, title: 'té', price: 325, thumbnail: 'img/te'},
 ];
 
 let productsExist = ()=>{

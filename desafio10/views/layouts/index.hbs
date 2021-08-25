@@ -1,20 +1,25 @@
-<table>
-    <th>
-        <td>Nombre</td>
-        <td>Precio</td>
-        <td>Url Producto</td>
-    </th>
-{{#if productsExist}}    
-    {{#each productos}}
-        <tr>
-            <td>{{this.title}}</td>
-            <td>{{this.price}}</td>
-            <td>{{this.thumbnail}}</td>
-        </tr>
-    {{/each}}
-    {{else}}
-        <tr>
-            <td>No hay productos</td>
-        </tr>
-{{/if}}
-</table>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Url Img</th>
+      </tr>
+    </thead>
+    <tbody>
+        {{#if productsExist}}    
+            {{#each productos}}
+                <tr>
+                    <td>{{this.title}}</td>
+                    <td>{{this.price}}</td>
+                    <td>{{this.thumbnail}}</td>
+                </tr>
+            {{/each}}
+            {{else}}
+                <tr>
+                    <td>No hay productos</td>
+                </tr>
+        {{/if}}
+    </tbody>
+  </table>
