@@ -2,8 +2,6 @@
 const express = require('express');
 //App en express
 const app = express();
-//multer
-const multer = require('multer');
 
 
 
@@ -25,14 +23,6 @@ let productsExist = ()=>{
     }
 } 
 
-let productsNotExist = ()=>{
-    if(productos.length=0){
-        return true;
-    }else{
-        return false;
-    }
-}
-
 
 app.engine("hbs",handlebars({
         extname:".hbs",
@@ -50,31 +40,6 @@ app.get('/',(req,res)=>{
 })
 
 
-
-
-
-//Storage
-let storage = multer.diskStorage({
-    destination:function(req, file, cb){
-        cb(null, 'uploads')
-    },
-    filename:function(req, file, cb){
-        cb(null, file.filename+'-'+Date.now())
-    }
-})
-
-let upload = multer({storage});
-
-
-app.post('/upload', upload.single('myfile'),(req, res, next)=>{
-
-    if(!req.file){
-        const error = new Error('Sin archivos');
-        error.httpStatusCode = 400;
-        return next(error);
-    }
-    res.send(req.file);
-});
 
 
 
