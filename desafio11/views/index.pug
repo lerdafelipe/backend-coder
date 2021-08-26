@@ -1,0 +1,16 @@
+html 
+    title Desafio 11 Pug 
+    body 
+    h1 Desafio 11, sección Pug.
+    table 
+        tr  
+            th Nombre 
+            th Precio 
+            th Url Imagen 
+        each product in productos
+            tr 
+                td=product.title 
+                td=product.price 
+                td=product.thumbnail
+        else 
+            p No existen productos
