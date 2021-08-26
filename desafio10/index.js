@@ -56,7 +56,7 @@ app.use('/productos', products);
 
 //app en el Servidor
 const server = app.listen(5300, ()=>{
-    console.log(`Servidor escuchando ${this.adress}:5300`);
+    console.log(`Servidor escuchando en puerto ${server.address().port}`);
 });
 
 //Manejo de error del servidor
