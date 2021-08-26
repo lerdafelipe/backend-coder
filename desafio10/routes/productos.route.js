@@ -40,13 +40,13 @@ router.post('', (req, res)=>{
 });
 
 //Ruta post para actualizar un product
-router.put('/actualizar/:id', (req, res)=>{
+router.put('/:id', (req, res)=>{
     let productUpdate = productos.filter(product => product.id === parseInt(req.params.id));
     res.json({productoActualizado: productUpdate});
 });
 
 //Ruta post para borrar un product
-router.delete('/borrar/:id', (req, res)=>{
+router.delete('/:id', (req, res)=>{
     let productDelete = productos.filter(product => product.id === parseInt(req.params.id));
     productos = productos.filter(product => product.id !== parseInt(req.params.id));
     res.json({productoActualizado: productDelete});
