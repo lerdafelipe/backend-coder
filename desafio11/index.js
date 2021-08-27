@@ -19,11 +19,11 @@ app.get('/', (req, res)=>{
 
 app.set('views', './views');
 //Pug
-//app.set('view engine', 'pug');
+app.set('view engine', 'pug');
 //Pug*/
 
 ///ejs
-app.set('view engine', 'ejs');
+//app.set('view engine', 'ejs');
 //ejs
 
 
