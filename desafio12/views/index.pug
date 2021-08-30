@@ -1,0 +1,23 @@
+html 
+    title Desafio 12 
+    body 
+    h1 Desafio 12.
+    form
+        input(type="text" placeholder="Producto" name="title" id="title") 
+        input(type="number" placeholder="Precio" name="price" id="price")
+        input(type="text" placeholder="Url imagen" name="thumnail" id="thumbnail")
+        input(type="submit" id="enviar")
+    table 
+        tr  
+            th Nombre 
+            th Precio 
+            th Url Imagen 
+        each product in productos
+            tr 
+                td=product.title 
+                td=product.price 
+                td=product.thumbnail
+        else 
+            p No existen productos
+    script(src="/socket.io/socket.io.js") 
+    script(src="./index.js")
