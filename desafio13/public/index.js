@@ -12,7 +12,7 @@ const innerMessages = document.getElementById('messages');
 
 socket.on('productos', data=>{
     renderProducts(data);
-})
+});
 
 const renderProducts = (data)=>{
     const datos = data.productos;
@@ -24,8 +24,11 @@ const renderProducts = (data)=>{
                     </tr>
                     `)
             }).join(' ');
-
-    innerProducts.innerHTML = fragment;
+    if(datos.length === 0){
+        innerProducts.innerHTML = `<tr><td></td><td>No se han encontrado productos</td><td></td></tr>`
+    }else{
+        innerProducts.innerHTML = fragment;
+    }
 }
 
 socket.on('messages', (data)=>{
@@ -36,8 +39,9 @@ const renderMsg = (data)=>{
     const datos = data.messages;
     let html = datos.map((message)=>{
         return (`<div>
-                    <strong>${message.author}</strong>
-                    <em>${message.text}</em>
+                    <strong style="color: blue; font-weight: 600;">${message.author}</strong>
+                    <span style="color: #804000;">[${message.fyh}]:</span>
+                    <em style="color:#00ff00; font-style:italic;">${message.text}</em>
                 </div>
                 `)
     }).join(' ');
@@ -46,7 +50,6 @@ const renderMsg = (data)=>{
 
     //Vaciar contenido
     text.value = '';
-    author.value = '';
 }
 
 
@@ -57,5 +60,7 @@ btn.addEventListener('click', ()=>{
 
 
 btnMsg.addEventListener('click', ()=>{
-    socket.emit('message', {author: author.value, text: text.value});
+    const f = new Date();
+    socket.emit('message', {author: author.value, fyh: `${f.getDate()}/${f.getMonth()+1}/${f.getFullYear()} ${f.getHours()}:${f.getMinutes()}:${f.getSeconds()}`, text: text.value});
 });
+
