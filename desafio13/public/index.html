@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio 13</title>
+</head>
+<body>
+    <h1>Desafio 13</h1>
+    <form>
+        <input type="text" placeholder="Producto" name="title" id="title">
+        <input type="number" placeholder="Precio" name="price" id="price">
+        <input type="text" placeholder="Url Img" name="thumbnail" id="thumbnail">
+        <button type="button" id="enviar">Enviar producto</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Prdoucto</th>
+                <th>Precio</th>
+                <th>Url imagen</th>
+            </tr>
+        </thead>
+        <tbody id="renderProducts">
+
+        </tbody>
+    </table>
+    <h2>Chat</h2>
+    <div id="messages">
+
+    </div>
+    <form>
+        <input type="text" placeholder="Mensaje" name="text" id="text">
+        <input type="text" placeholder="Usuario" name="author" id="author">
+        <button type="button" id="enviarMsg">Enviar Mensaje</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
