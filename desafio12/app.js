@@ -18,7 +18,7 @@ io.on('connection', (socket)=>{
     io.emit('productos', {productos});
     socket.on('producto', (data)=>{
         productos.push({...data, id: socket.id});
-        io.emit('productos', {productos});
+        io.sockets.emit('productos', {productos});
     })
 });
 
