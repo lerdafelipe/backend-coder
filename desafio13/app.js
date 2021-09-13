@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = require('socket.io') (http);
 const productos = [];
 const messages = [{ author: 'Juan', fyh: '01/09/2021 09:33:55', text: '¡Hola! ¿Que tal?' },
                   { author: 'Pedro', fyh: '01/09/2021 09:34:45', text: '¡Muy bien! ¿Y vos?' },
