@@ -8,19 +8,9 @@ const products = require('./routes/productos.route');
 const cart = require('./routes/carrito.route');
 //Cors
 const cors = require('cors');
-//
-const {options} = require('./sqlite3');
-const knex = require('knex')(options);
-//
+const Connection = require('./database/Connection')
 
-knex.schema.createTableIfNotExists('mensajes',(table)=>{
-    table.increments('id').notNullable();
-    table.string('mensaje').notNullable();
-})
-
-app.use(cors({
-    origin:'*'
-}));
+app.use(cors({origin:'*'}));
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({extended:true}));
@@ -38,6 +28,8 @@ app.use(express.static('public'));
 const server = app.listen(8080, ()=>{
     console.log('Servidor escuchando en el puerto 8080');
 });
+
+Connection();
 
 //Manejo de error del servidor
 server.on('error', error =>{

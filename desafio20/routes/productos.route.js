@@ -1,58 +1,52 @@
 const express = require('express');
+const productsSchema = require('../Schemas/productsSchema');
 //Router
 const router = express.Router();
-//
-const {options} = require('../mariaDB');
-const knex = require('knex')(options);
-//
-const administrador = true;
-
 
 
 //Ruta de listar productos
-router.get('/', (req, res)=>{
-    knex('items').select('*').then(data=>{
-        res.json(data);
-    })
+router.get('/', async (req, res)=>{
+    const products = await productsSchema.find();
+
+    res.json(products);
 });
 
 //Ruta de listar un solo producto
-router.get('/:id', (req, res)=>{
-    const {id}= req.params;
-    knex('productos').select('*').where({id}).then(data=>{
-        res.json(data);
-    })
+router.get('/:id', async(req, res)=>{
+    const {id} = req.params;
+
+    const product = await productsSchema.findById(id);
+
+    res.json(product);
 });
 
 //Ruta post para guardar un product
-router.post('/', (req, res)=>{
-    const {product} = req.body;
-    if(administrador){
-        knex('productos').insert(product);
-    }else{
-        res.send({error: -1, descripcion: 'Ruta con método no autorizada'});
-    }
+router.post('/', async(req, res)=>{
+
+    const newProduct = new productsSchema(req.body);
+    let productSave = await newProduct.save();
+
+    res.json(productSave);
 });
 
 //Ruta post para actualizar un product
-router.put('/:id', (req, res)=>{
-    const {product}=req.body;
-    const {id}=req.params;
-    if(administrador){
-        knex('productos').where({id}).update(product);
-    }else{
-        res.send({error: -1, descripcion: 'Ruta con método no autorizada'});
-    }
+router.put('/:id', async (req, res)=>{
+    const {id} = req.params;
+
+    const productUpdate = await productsSchema.updateOne({_id: id}, {
+        $set: req.body
+    });
+
+    res.json(productUpdate);
 });
 
 //Ruta post para borrar un product
-router.delete('/:id', (req, res)=>{
-    const {id}=req.params;
-    if(administrador){
-        knex('productos').where({id}).del();
-    }else{
-        res.send({error: -1, descripcion: 'Ruta con método no autorizada'});
-    }
+router.delete('/:id', async (req, res)=>{
+    const {id} = req.params;
+
+    const product = await productsSchema.findOneAndDelete({_id: id});
+
+    res.json({product: product})
 });
 
 module.exports = router;

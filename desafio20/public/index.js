@@ -22,10 +22,10 @@ const renderProducts = (data)=>{
         let fragment = data.map(product=>{
             return(`
                 <div class="card" style="width: 18rem; margin: 15px;">
-                        <img src="${product.thumbnail}" class="card-img-top" alt="...">
+                        <img src="https://dummyimage.com/245x245.png/cc0000/ffffff" class="card-img-top" alt="...">
                         <div class="card-body">
-                        <h5 class="card-title">${product.title}</h5>
-                        <h5 class="card-title">$${product.price}</h5>
+                        <h5 class="card-title">${product.nombre}</h5>
+                        <h5 class="card-title">$${product.precio}</h5>
                         <button type="button" class="btn btn-primary" onclick="edit(${product.id})">Editar</button>
                         <button type="button" class="btn btn-danger" onclick="deleteProduct(${product.id})">Eliminar</button>
                         <button type="button" class="btn btn-success" style="margin-top: 5px;" onclick="addCart(${product.id})">Agregar al carrito</button>
@@ -60,7 +60,7 @@ btnAdd.addEventListener('click', ()=>{
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({title: title.value, price: price.value, stock: stock.value, description: description.value, thumbnail: thumbnail.value, id: f})
+        body: JSON.stringify({nombre: title.value, precio: price.value, stock: stock.value, categoria: description.value, thumbnail: thumbnail.value})
       }).then(alert('Producto enviado'))
       .then(fetchProducts());
     price.value = '';
@@ -77,7 +77,7 @@ btnChange.addEventListener('click', ()=>{
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({title: titleNew.value, price: priceNew.value, thumbnail: thumbnailNew.value})
+        body: JSON.stringify({nombre: title.value, precio: price.value, stock: stock.value, categoria: description.value, thumbnail: thumbnail.value})
       }).then(alert('Producto Modificado'))
       .then(fetchProducts());
     price.value = '';
@@ -122,7 +122,7 @@ const renderCart = (data)=>{
     if(data.productosCart.length > 0){
         let innerCart = data.productosCart.map(product=>{
             return(`
-            <li><p class="dropdown-item" href="#">${product.title}</p></li>
+            <li><p class="dropdown-item" href="#">${product.nombre}</p></li>
             `)
             }).join(' ');
 
