@@ -2,6 +2,7 @@ const btnAdd = document.getElementById('add');
 const title = document.getElementById('title');
 const price = document.getElementById('price');
 const stock = document.getElementById('stock');
+const codigo = document.getElementById('codigo');
 const description = document.getElementById('description');
 const thumbnail = document.getElementById('thumbnail');
 const btnChange = document.getElementById('change');
@@ -9,6 +10,7 @@ const titleNew = document.getElementById('titleNew');
 const priceNew = document.getElementById('priceNew');
 const descriptionNew = document.getElementById('descriptionNew');
 const stockNew = document.getElementById('stockNew');
+const codigoNew = document.getElementById('codigoNew');
 const thumbnailNew = document.getElementById('thumbnailNew');
 const idChange = document.getElementById('idChange');
 const innerProducts = document.getElementById('innerProducts');
@@ -60,14 +62,13 @@ btnAdd.addEventListener('click', ()=>{
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({nombre: title.value, precio: price.value, stock: stock.value, categoria: description.value, thumbnail: thumbnail.value})
+        body: JSON.stringify({nombre: title.value, precio: price.value, stock: stock.value, categoria: description.value, thumbnail: thumbnail.value, codigo: codigo.value})
       }).then(alert('Producto enviado'))
       .then(fetchProducts());
     price.value = '';
     title.value = '';
     thumbnail.value = '';
 });
-
 
 
 //Edit Products in the server
@@ -77,12 +78,15 @@ btnChange.addEventListener('click', ()=>{
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({nombre: title.value, precio: price.value, stock: stock.value, categoria: description.value, thumbnail: thumbnail.value})
+        body: JSON.stringify({nombre: titleNew.value, precio: priceNew.value, stock: stockNew.value, categoria: descriptionNew.value, thumbnail: thumbnailNew.value, codigo: codigoNew.value})
       }).then(alert('Producto Modificado'))
       .then(fetchProducts());
-    price.value = '';
-    title.value = '';
-    thumbnail.value = '';
+    priceNew.value = '';
+    titleNew.value = '';
+    thumbnailNew.value = '';
+    stockNew.value = '';
+    descriptionNew.value = '';
+    codigoNew.value = '';
 });
 //Edit products easiest UI
 const innerEdit = (data)=>{

@@ -2,13 +2,17 @@
 const express = require('express');
 //App en express
 const app = express();
+
+/////////////////////Firebase///////////////////////
 //Ruta a productos
 const products = require('./routes/productos.route');
-//Ruta a carrito
-const cart = require('./routes/carrito.route');
+/////////////////////Firebase///////////////////////
+//////////////////MySQL MARIADB////////////////////
+//Ruta a productos
+const products = require('./routes/productosSql.route');
+//////////////////MySQL MARIADB////////////////////
 //Cors
 const cors = require('cors');
-const Connection = require('./database/Connection')
 
 app.use(cors({origin:'*'}));
 app.use(express.json());
@@ -28,8 +32,6 @@ app.use(express.static('public'));
 const server = app.listen(8080, ()=>{
     console.log('Servidor escuchando en el puerto 8080');
 });
-
-Connection();
 
 //Manejo de error del servidor
 server.on('error', error =>{
