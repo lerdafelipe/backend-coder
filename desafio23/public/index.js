@@ -12,7 +12,6 @@ const stockNew = document.getElementById('stockNew');
 const thumbnailNew = document.getElementById('thumbnailNew');
 const idChange = document.getElementById('idChange');
 const innerProducts = document.getElementById('innerProducts');
-const cart = document.getElementById('cart');
 const f = Date.now();
 
 
@@ -28,7 +27,6 @@ const renderProducts = (data)=>{
                         <h5 class="card-title">$${product.precio}</h5>
                         <button type="button" class="btn btn-primary" onclick="edit(${product.id})">Editar</button>
                         <button type="button" class="btn btn-danger" onclick="deleteProduct(${product.id})">Eliminar</button>
-                        <button type="button" class="btn btn-success" style="margin-top: 5px;" onclick="addCart(${product.id})">Agregar al carrito</button>
                         </div>
                     </div>
             `)
@@ -110,45 +108,46 @@ const deleteProduct = (id)=>{
     .then(fetchProducts());
 }
 
+///Login
 
-//Get products of the cart
-function fetchCart(){
-    fetch('/carrito')
+const loginDiv = document.getElementById('Login-div');
+const logoutDiv = document.getElementById('Logout-div');
+const comeBack = document.getElementById('come-back');
+const nameUser = document.getElementById('name-user').value;
+const LoginBtn = document.getElementById('Login');
+const LogoutBtn = document.getElementById('Logout');
+const welcome = document.getElementById('welcome-user');
+
+const initialize = ()=>{
+    const log = ()=>{
+        fetch('/session/log')
         .then(data=>data.json())
-        .then(datos => renderCart(datos));
-}
-//Render products in the UI
-const renderCart = (data)=>{
-    if(data.productosCart.length > 0){
-        let innerCart = data.productosCart.map(product=>{
-            return(`
-            <li><p class="dropdown-item" href="#">${product.nombre}</p></li>
-            `)
-            }).join(' ');
-
-        cart.innerHTML = innerCart;
-    }else{
-        cart.innerHTML = `<li><p class="dropdown-item" href="#">Carrito vacío</p></li>`;
+        .then(datos => datos.log)
     }
+    if(log = true){
+        welcomeUser();
+    }else{return}
 }
-fetchCart();
-//Get product cart
 
+LoginBtn.addEventListener('click', ()=>{
+    localStorage.setItem('nameUser', nameUser);
+    fetch('/session/login').then(welcomeUser());
+});
 
-//Get products to send it to the cart
-function addCart(id){
-    fetch(`/productos/${id}`)
-        .then(data=>data.json())
-        .then(datos => sendCart(datos[0]));
-}
-//Send products to the cart
-const sendCart = (data)=>{
-    fetch('/carrito', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      }).then(alert('Producto Agregado'))
-      .then(fetchCart());
+const welcomeUser = ()=>{
+    loginDiv.classList.add('hide-div');
+    logoutDiv.classList.remove('hide-div');
+    welcome.innerHTML = `Bienvenido ${nameUser}`;
+};
+
+LogoutBtn.addEventListener('click', ()=>{
+    fetch('/session/logout').then(comeUser());
+});
+
+const comeUser = ()=>{
+    const nameUsuario = localStorage.getItem('nameUser');
+    comeBack.innerHTML = `Vuelve pronto ${nameUsuario}`;
+    loginDiv.classList.remove('hide-div');
+    logoutDiv.classList.add('hide-div');
+    nameUser = '';
 }

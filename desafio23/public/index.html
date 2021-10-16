@@ -10,18 +10,23 @@
 </head>
 <body>
     <div class="container" style="margin-bottom: 80px;">
-        <h1 style="text-align: center;">Primer Entrega Proyecto Final</h1>
-
-
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown button
-            </button>
-            <ul id="cart" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-
-            </ul>
+        <h1 style="text-align: center;">Entrega 24</h1>
+    
+        <div class="Login-div">
+            <h2 id="come-back"></h2>
+            <h2>Login</h2>
+            <form>
+                <input type="text" id="name-user" placeholder="Ingrese su nombre">
+                <button type="button" id="Login">Login</button>
+            </form>
         </div>
 
+        <div class="Logout-div hide-div">
+            <h2 id="welcome-user"></h2>
+            <button type="button" id="Logout">Logout</button>
+        </div>
+
+        <hr/>
 
         <h2>Producto a agregar</h2>
 
@@ -34,13 +39,15 @@
             <button type="button" id="add">Enviar Producto</button>
         </form>
 
+        <hr/>
+
 
         <h2>Productos</h2>
 
         <div class="row" id="innerProducts">
 
         </div>
-
+        <hr/>
 
         <h2>Producto a modificar</h2>
         <form>

@@ -2,34 +2,31 @@
 const express = require('express');
 //App en express
 const app = express();
-//Ruta a productos
+//Routes
 const products = require('./routes/productos.route');
-//Ruta
 const test = require('./routes/test.route');
-//Cors
-const cors = require('cors');
-const Connection = require('./database/Connection')
+const session = require('./routes/session.route');
+const Connection = require('./database/Connection');
 
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+const cors = require('cors');
 app.use(cors({origin:'*'}));
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({extended:true}));
-
-//Ruta a productos
-app.use('/productos', products);
-
-//Uso de la ruta
-app.use('/test', test);
-
-//Uso del static
 app.use(express.static('public'));
+Connection();
+
+//routes
+app.use('/productos', products);
+app.use('/test', test);
+app.use('./session', session);
 
 //app en el Servidor
 const server = app.listen(8080, ()=>{
     console.log('Servidor escuchando en el puerto 8080');
 });
-
-Connection();
 
 //Manejo de error del servidor
 server.on('error', error =>{
