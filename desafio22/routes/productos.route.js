@@ -29,7 +29,7 @@ router.post('/', async(req, res)=>{
     res.json(productSave);
 });
 
-//Ruta post para actualizar un product
+//Ruta put para actualizar un product
 router.put('/:id', async (req, res)=>{
     const {id} = req.params;
 
@@ -42,11 +42,12 @@ router.put('/:id', async (req, res)=>{
 
 //Ruta post para borrar un product
 router.delete('/:id', async (req, res)=>{
-    const {id} = req.params;
+    const id = req.params.id;
 
     const product = await productsSchema.findOneAndDelete({_id: id});
 
     res.json({product: product})
+    console.log(id);
 });
 
 module.exports = router;

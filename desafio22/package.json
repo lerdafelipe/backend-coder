@@ -4,5 +4,16 @@
     "express": "^4.17.1",
     "mongoose": "^6.0.9",
     "normalizr": "^3.6.1"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "desafio22",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

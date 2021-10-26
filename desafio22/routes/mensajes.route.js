@@ -3,8 +3,6 @@ const mensajesSchema = require('../schemas/mensajesSchema');
 //Router
 const router = express.Router();
 
-const {normilize, schema} = require('normalizr');
-
 
 //Ruta de listar mensaje
 router.get('/', async(req, res)=>{

@@ -4,8 +4,8 @@ const express = require('express');
 const app = express();
 //Ruta a productos
 const products = require('./routes/productos.route');
-//Ruta
-const test = require('./routes/test.route');
+//Ruta a productos
+const mensajes = require('./routes/mensajes.route');
 //Cors
 const cors = require('cors');
 const Connection = require('./database/Connection')
@@ -17,9 +17,7 @@ app.use(express.urlencoded({extended:true}));
 
 //Ruta a productos
 app.use('/productos', products);
-
-//Uso de la ruta
-app.use('/test', test);
+app.use('/mensajes', mensajes);
 
 //Uso del static
 app.use(express.static('public'));
