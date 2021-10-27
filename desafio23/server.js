@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 //Routes
 const products = require('./routes/productos.route');
-const test = require('./routes/test.route');
 const session = require('./routes/session.route');
 const Connection = require('./database/Connection');
 
@@ -20,13 +19,12 @@ Connection();
 
 //routes
 app.use('/productos', products);
-app.use('/test', test);
-app.use('./session', session);
+app.use('/session', session);
 
 //app en el Servidor
 const server = app.listen(8080, ()=>{
     console.log('Servidor escuchando en el puerto 8080');
-});
+}); 
 
 //Manejo de error del servidor
 server.on('error', error =>{

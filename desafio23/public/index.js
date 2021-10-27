@@ -25,8 +25,8 @@ const renderProducts = (data)=>{
                         <div class="card-body">
                         <h5 class="card-title">${product.nombre}</h5>
                         <h5 class="card-title">$${product.precio}</h5>
-                        <button type="button" class="btn btn-primary" onclick="edit(${product.id})">Editar</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteProduct(${product.id})">Eliminar</button>
+                        <button type="button" class="btn btn-primary" onclick=edit('${product._id}')>Editar</button>
+                        <button type="button" class="btn btn-danger" onclick=deleteProduct('${product._id}')>Eliminar</button>
                         </div>
                     </div>
             `)
@@ -113,32 +113,38 @@ const deleteProduct = (id)=>{
 const loginDiv = document.getElementById('Login-div');
 const logoutDiv = document.getElementById('Logout-div');
 const comeBack = document.getElementById('come-back');
-const nameUser = document.getElementById('name-user').value;
+const nameUser = document.getElementById('name-user');
+const password = document.getElementById('password');
 const LoginBtn = document.getElementById('Login');
 const LogoutBtn = document.getElementById('Logout');
 const welcome = document.getElementById('welcome-user');
 
-const initialize = ()=>{
-    const log = ()=>{
-        fetch('/session/log')
-        .then(data=>data.json())
-        .then(datos => datos.log)
-    }
-    if(log = true){
-        welcomeUser();
-    }else{return}
-}
-
-LoginBtn.addEventListener('click', ()=>{
-    localStorage.setItem('nameUser', nameUser);
-    fetch('/session/login').then(welcomeUser());
-});
-
 const welcomeUser = ()=>{
     loginDiv.classList.add('hide-div');
     logoutDiv.classList.remove('hide-div');
-    welcome.innerHTML = `Bienvenido ${nameUser}`;
+    let nameStorage = localStorage.getItem('nameUser');
+    welcome.innerHTML = `Bienvenido ${nameStorage}`;
 };
+
+const initialize = ()=>{
+    const loginTrue = (trues) =>{
+        if(trues === 'true'){
+            welcomeUser();
+        }else return;
+    }
+    fetch('/session/log')
+        .then(data=>data.json())
+        .then(datos =>  {
+            loginTrue(datos.log)
+        });
+}
+initialize();
+
+LoginBtn.addEventListener('click', ()=>{
+    localStorage.setItem('nameUser', nameUser.value);
+    fetch('/session/login').then(welcomeUser());
+});
+
 
 LogoutBtn.addEventListener('click', ()=>{
     fetch('/session/logout').then(comeUser());
@@ -149,5 +155,5 @@ const comeUser = ()=>{
     comeBack.innerHTML = `Vuelve pronto ${nameUsuario}`;
     loginDiv.classList.remove('hide-div');
     logoutDiv.classList.add('hide-div');
-    nameUser = '';
+    nameUser.value = '';
 }
