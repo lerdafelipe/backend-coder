@@ -128,13 +128,14 @@ const welcomeUser = ()=>{
 
 const initialize = ()=>{
     const loginTrue = (trues) =>{
-        if(trues === 'true'){
+        if(trues === true){
             welcomeUser();
         }else return;
     }
     fetch('/session/log')
         .then(data=>data.json())
         .then(datos =>  {
+            console.log(datos.log)
             loginTrue(datos.log)
         });
 }
@@ -142,12 +143,21 @@ initialize();
 
 LoginBtn.addEventListener('click', ()=>{
     localStorage.setItem('nameUser', nameUser.value);
-    fetch('/session/login').then(welcomeUser());
+    fetch('/session/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({user: nameUser.value, password: password.value})
+      }).then(welcomeUser());
 });
 
 
 LogoutBtn.addEventListener('click', ()=>{
-    fetch('/session/logout').then(comeUser());
+    fetch('/session/logout').then( data =>{
+        console.log(data);
+        comeUser()
+    });
 });
 
 const comeUser = ()=>{

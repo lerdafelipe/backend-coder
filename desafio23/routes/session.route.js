@@ -3,16 +3,24 @@ const express = require('express');
 const router = express.Router();
 
 //Ruta de listar mensaje
-router.get('/login', (req, res)=>{
-    res.cookie('login', true, {maxAge: 60000}).send({Process: 'Ok'});
+router.post('/login', (req, res)=>{
+    req.session.user = req.body.user;
+    req.session.password = req.body.password;
+    res.send({login: 'success'});
 });
 
 router.get('/log', (req, res)=>{
-    res.json({log: req.cookies.login});
-});
+    console.log(req.session);
+    if(req.session.user){
+        res.json({
+            log: true
+        })
+    }else res.json({log: false});
+})
 
 router.get('/logout', (req, res)=>{
-    res.clearCookie('login').send({msg: 'Cookie borrada'});
+    req.session.destroy();
+    res.send('Logout success');
 });
 
 module.exports = router;

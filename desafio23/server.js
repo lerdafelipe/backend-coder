@@ -4,11 +4,15 @@ const express = require('express');
 const app = express();
 //Routes
 const products = require('./routes/productos.route');
-const session = require('./routes/session.route');
+const sessionRoute = require('./routes/session.route');
 const Connection = require('./database/Connection');
 
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
+const session = require('express-session');
+app.use(session({
+    secret: 'manolito',
+    resave: true, 
+    saveUninitialized: true
+}));
 const cors = require('cors');
 app.use(cors({origin:'*'}));
 app.use(express.json());
@@ -19,7 +23,7 @@ Connection();
 
 //routes
 app.use('/productos', products);
-app.use('/session', session);
+app.use('/session', sessionRoute);
 
 //app en el Servidor
 const server = app.listen(8080, ()=>{
