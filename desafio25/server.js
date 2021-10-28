@@ -16,7 +16,7 @@ const advanceOptions = {useNewUrlParser: true, useUnifiedTopology: true};
 const session = require('express-session');
 app.use(session({
     store: mongoStore.create({
-        mongoUrl: '',
+        mongoUrl: 'mongodb://localhost:27017/ecommerce',
         mongoOptions: advanceOptions,
         ttl: 3000
     }),

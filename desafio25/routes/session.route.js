@@ -11,10 +11,13 @@ router.post('/login', (req, res)=>{
 
 router.get('/log', (req, res)=>{
     if(req.session.user){
-        res.json({
-            log: true
-        })
-    }else res.json({log: false});
+        req.session.user = req.session.user;
+        req.session.password = req.session.password;
+        res.json({log: true});
+    }
+    else{ 
+        res.json({log: false})
+    };
 })
 
 router.get('/logout', (req, res)=>{
