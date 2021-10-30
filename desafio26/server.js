@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 //Routes
 const products = require('./routes/productos.route');
-const sessionRoute = require('./routes/session.route');
 const Connection = require('./database/Connection');
 //
 const cookieParser = require('cookie-parser');
@@ -37,7 +36,6 @@ Connection();
 
 //routes
 app.use('/productos', products);
-app.use('/session', sessionRoute);
 
 
 const bCrypt = require('bcrypt');
