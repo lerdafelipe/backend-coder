@@ -39,7 +39,6 @@ app.use('/productos', products);
 
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
-const users = require ('./schemas/userSchema');
 
 passport.use(new FacebookStrategy({
     clientID: 15,
@@ -48,20 +47,17 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'first_name', 'last_name', 'picture', 'email'],
     scope: ['email']
 },
-async function(accesToken, refreshToken, profile, done){
+    function(accesToken, refreshToken, profile, done){
         console.log(profile);
-        let user = await users.find(profile.id, function(err, user){
-            if(err) return done(err);
-            done(null, user);
-        });
+        let userProfile = profile;
+        done(null, userProfile);
     })
 );
 
 passport.serializeUser(function(user, done){
-    done(null, user[0].username)
+    done(null, user)
 });
-passport.deserializeUser(function(username, done){
-    let usuario = users.findOne({username: username});
+passport.deserializeUser(function(usuario, done){
     done(null, usuario);
 })
 
