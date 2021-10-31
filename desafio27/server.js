@@ -45,7 +45,7 @@ passport.use(new FacebookStrategy({
     clientID: 15,
     clientSecret: '',
     callbackURL: '/auth/facebook/callback',
-    profileFields: ['id', 'displayName', 'photos', 'email'],
+    profileFields: ['id', 'first_name', 'last_name', 'picture', 'email'],
     scope: ['email']
 },
 async function(accesToken, refreshToken, profile, done){
@@ -77,14 +77,10 @@ app.get('/log', (req, res)=>{
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
 app.get('/auth/facebook/callback', passport.authenticate('facebook',{
-        successRedirect: '/success-login', 
+        successRedirect: '/', 
         failureRedirect: '/fail-login'
     })
 );
-
-app.get('/success-login', (req, res)=>{
-    res.send('success!')
-})
 
 app.get('/fail-login', (req, res)=>{
     res.send('error de logueo')
@@ -97,7 +93,7 @@ app.get('/logout', (req, res)=>{
 
 app.get('/info-user', (req, res)=>{
     if(req.isAuthenticated()){
-        res.json(req.user);
+        res.json({user: req.user});
     }
 });
 
