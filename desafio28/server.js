@@ -94,6 +94,13 @@ app.get('/info-user', (req, res)=>{
     }
 });
 
+///////////////////////////////
+// DESAFIO CLASE 28
+///////////////////////////////
+
+
+const {fork} = require('child_process');
+const { compileFunction } = require('vm');
 
 app.get('/info', (req, res)=>{
     res.json({
@@ -107,23 +114,10 @@ app.get('/info', (req, res)=>{
     })
 });
 
-app.get('/randoms', (req, res)=>{
-    const cant = req.query.cant || 100000000;
-    const numeros = [];
-    function random (){
-        return Math.floor(Math.random () * (1000-1)) + 1;
-    }
-    for (let index = 0; index < cant; index++) {
-        let newNum = random();
-        let num = {numero: newNum, cantidad: exist(newNum)};
-        function exist(element){
-            cantidad = numeros.filter(num => num.numero === element);
-            return cantidad.length + 1;
-        }
-        numeros.push(num);
-    }
-    res.json(numeros);
-});
+
+///////////////////////////////
+// DESAFIO CLASE 28
+///////////////////////////////
 
 
 const server = app.listen(8080, ()=>{
@@ -134,3 +128,23 @@ const server = app.listen(8080, ()=>{
 server.on('error', error =>{
     res.json({error: -2, descripcion: 'Ruta con método con implementada'}, error);
 });
+
+
+
+///////////////////////////////
+// DESAFIO CLASE 28
+///////////////////////////////
+
+server.on('request', (req, res)=>{
+    let {url} = req;
+    if(url.includes('/randoms')){
+        const cant = req.query.cant || 100000000;
+        const calculo = fork('./random.js');
+        calculo.send(cant);
+        calculo.on('message', numeros => res.end(numeros));
+    }
+});
+
+///////////////////////////////
+// DESAFIO CLASE 28
+///////////////////////////////
