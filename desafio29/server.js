@@ -109,7 +109,8 @@ app.get('/info', (req, res)=>{
         id: process.pid,
         node_version: process.version,
         carpeta: process.cwd(),
-        uso_memoria: process.memoryUsage()
+        uso_memoria: process.memoryUsage(),
+        numProcess: require('os').cpus().length
     })
 });
 

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "fork": "pm2 start server.js --name='Server1' --watch"
+    "fork": "pm2 start server.js --name='Server1' --watch",
+    "cluster": "pm2 start server.js --name='Server1' --watch -i max"
   },
   "keywords": [],
   "author": "",
