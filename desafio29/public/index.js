@@ -113,12 +113,18 @@ const logoutDiv = document.getElementById('Logout-div');
 const links = document.getElementById('links');
 const LogoutBtn = document.getElementById('Logout');
 const welcome = document.getElementById('welcome-user');
+const userPhoto = document.getElementById('user-photo');
+const userEmail = document.getElementById('user-email');
 
 const welcomeUser = ()=>{
     links.classList.add('hide-div');
     logoutDiv.classList.remove('hide-div');
-    let nameStorage = localStorage.getItem('nameUser');
-    welcome.innerHTML = `Bienvenido ${nameStorage}`;
+    fetch('/info-user').then(datos => datos.json())
+    .then(data =>{
+        welcome.innerHTML = `Bienvenido ${data.user.first_name} ${data.user.last_name}`;
+        userPhoto.src = `${data.user.picture}`;
+        userEmail.innerHTML = `${data.user.email}`;
+    })
 };
 
 const initialize = ()=>{
@@ -127,7 +133,7 @@ const initialize = ()=>{
             welcomeUser();
         }else return;
     }
-    fetch('/session/log')
+    fetch('/log')
         .then(data=>data.json())
         .then(datos =>  {
             loginTrue(datos.log)
@@ -138,5 +144,5 @@ initialize();
 
 
 LogoutBtn.addEventListener('click', ()=>{
-    fetch('/session/logout').then();
+    fetch('/logout').then(location.href('/pages/logout.html'));
 });
