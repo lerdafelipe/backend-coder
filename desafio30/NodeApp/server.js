@@ -29,7 +29,7 @@ app.use(cors({origin:'*'}));
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({extended:true}));
-app.use(express.static('public'));
+//app.use(express.static('public'));
 Connection();
 
 //routes
@@ -42,8 +42,8 @@ const FACEBOOK_CLIENT_ID = 15;
 const FACEBOOK_CLIENT_SECRET = '';
 
 passport.use(new FacebookStrategy({
-    clientID: parseInt(process.argv[2]) || FACEBOOK_CLIENT_ID,
-    clientSecret: process.argv[2] || FACEBOOK_CLIENT_SECRET,
+    clientID:  FACEBOOK_CLIENT_ID,
+    clientSecret:  FACEBOOK_CLIENT_SECRET,
     callbackURL: '/auth/facebook/callback',
     profileFields: ['id', 'first_name', 'last_name', 'picture', 'email'],
     scope: ['email']
@@ -100,8 +100,6 @@ app.get('/info-user', (req, res)=>{
 
 
 const {fork} = require('child_process');
-const calculo = fork('./random.js');
-const cluster = require('cluster');
 
 app.get('/info', (req, res)=>{
     res.json({
@@ -111,13 +109,15 @@ app.get('/info', (req, res)=>{
         id: process.pid,
         node_version: process.version,
         carpeta: process.cwd(),
-        uso_memoria: process.memoryUsage()
+        uso_memoria: process.memoryUsage(),
+        numProcess: require('os').cpus().length
     })
 });
 
 
 app.get('/randoms', (req, res)=>{
     const cant = req.query.cant || 100000000;
+    const calculo = fork('./random.js');
     calculo.send(cant);
     calculo.on('message', numeros =>{
         res.send(numeros);
@@ -129,8 +129,10 @@ app.get('/randoms', (req, res)=>{
 // DESAFIO CLASE 28
 ///////////////////////////////
 
+const PORT = parseInt(process.argv[2]) || 8080;
 
-const server = app.listen(8080, ()=>{
+
+const server = app.listen(PORT, ()=>{
     console.log('Servidor escuchando en el puerto 8080');
 }); 
 
