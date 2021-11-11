@@ -4,11 +4,13 @@ const app = express();
 const products = require('./routes/productos.route');
 const Connection = require('./database/Connection');
 //
+const compression = require('compression');
+app.use(compression());
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const mongoStore = require('connect-mongo');
 //
-const advanceOptions = {useNewUrlParser: true, useUnifiedTopology: true};
+const advanceOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 const session = require('express-session');
 app.use(session({
@@ -18,18 +20,18 @@ app.use(session({
         ttl: 3000
     }),
     secret: 'manolito',
-    resave: false, 
+    resave: false,
     saveUninitialized: false,
-    cookie:{
+    cookie: {
         maxAge: 600000
     }
 }));
 const cors = require('cors');
-app.use(cors({origin:'*'}));
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use(express.text());
-app.use(express.urlencoded({extended:true}));
-//app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 Connection();
 
 //routes
@@ -42,55 +44,55 @@ const FACEBOOK_CLIENT_ID = 15;
 const FACEBOOK_CLIENT_SECRET = '';
 
 passport.use(new FacebookStrategy({
-    clientID:  FACEBOOK_CLIENT_ID,
-    clientSecret:  FACEBOOK_CLIENT_SECRET,
+    clientID: FACEBOOK_CLIENT_ID,
+    clientSecret: FACEBOOK_CLIENT_SECRET,
     callbackURL: '/auth/facebook/callback',
     profileFields: ['id', 'first_name', 'last_name', 'picture', 'email'],
     scope: ['email']
 },
-    function(accesToken, refreshToken, profile, done){
+    function (accesToken, refreshToken, profile, done) {
         console.log(profile);
         let userProfile = profile;
         done(null, userProfile);
     })
 );
 
-passport.serializeUser(function(user, done){
+passport.serializeUser(function (user, done) {
     done(null, user)
 });
-passport.deserializeUser(function(usuario, done){
+passport.deserializeUser(function (usuario, done) {
     done(null, usuario);
 })
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/log', (req, res)=>{
-    if (req.isAuthenticated()){
-        res.json({log: true})
-    }else res.json({log: false})
+app.get('/log', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({ log: true })
+    } else res.json({ log: false })
 });
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
-app.get('/auth/facebook/callback', passport.authenticate('facebook',{
-        successRedirect: '/', 
-        failureRedirect: '/fail-login'
-    })
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '/fail-login'
+})
 );
 
-app.get('/fail-login', (req, res)=>{
+app.get('/fail-login', (req, res) => {
     res.send('error de logueo')
 });
 
-app.get('/logout', (req, res)=>{
+app.get('/logout', (req, res) => {
     req.logout();
     res.send('Success!');
 });
 
-app.get('/info-user', (req, res)=>{
-    if(req.isAuthenticated()){
-        res.json({user: req.user});
+app.get('/info-user', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({ user: req.user });
     }
 });
 
@@ -99,9 +101,11 @@ app.get('/info-user', (req, res)=>{
 ///////////////////////////////
 
 
-const {fork} = require('child_process');
+const { fork } = require('child_process');
+const logger = require('./logger/index')
 
-app.get('/info', (req, res)=>{
+app.get('/info', (req, res) => {
+    logger.log(`PATH:${req.path}, METHOD: ${req.method} response success`);
     res.json({
         Argumentos_de_entrada: process.argv,
         Path: process.execPath,
@@ -115,11 +119,11 @@ app.get('/info', (req, res)=>{
 });
 
 
-app.get('/randoms', (req, res)=>{
+app.get('/randoms', (req, res) => {
     const cant = req.query.cant || 100000000;
     const calculo = fork('./random.js');
     calculo.send(cant);
-    calculo.on('message', numeros =>{
+    calculo.on('message', numeros => {
         res.send(numeros);
     })
 });
@@ -132,11 +136,11 @@ app.get('/randoms', (req, res)=>{
 const PORT = parseInt(process.argv[2]) || 8080;
 
 
-const server = app.listen(PORT, ()=>{
+const server = app.listen(PORT, () => {
     console.log('Servidor escuchando en el puerto 8080');
-}); 
+});
 
 //Manejo de error del servidor
-server.on('error', error =>{
-    res.json({error: -2, descripcion: 'Ruta con método con implementada'}, error);
+server.on('error', error => {
+    res.json({ error: -2, descripcion: 'Ruta con método con implementada' }, error);
 });
