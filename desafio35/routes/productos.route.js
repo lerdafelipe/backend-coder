@@ -1,52 +1,29 @@
 const express = require('express');
-const productsSchema = require('../Schemas/productsSchema');
 //Router
 const router = express.Router();
+//Controllers
+const {
+    getProducts, 
+    getOneProduct, 
+    postProduct, 
+    putProduct, 
+    deleteProduct
+} = require('../controllers/productsController');
 
 
 //Ruta de listar productos
-router.get('/', async (req, res)=>{
-    const products = await productsSchema.find();
-
-    res.json(products);
-});
+router.get('/', getProducts);
 
 //Ruta de listar un solo producto
-router.get('/:id', async(req, res)=>{
-    const {id} = req.params;
-
-    const product = await productsSchema.findById(id);
-
-    res.json(product);
-});
+router.get('/:id', getOneProduct);
 
 //Ruta post para guardar un product
-router.post('/', async(req, res)=>{
-
-    const newProduct = new productsSchema(req.body);
-    let productSave = await newProduct.save();
-
-    res.json(productSave);
-});
+router.post('/', postProduct);
 
 //Ruta post para actualizar un product
-router.put('/:id', async (req, res)=>{
-    const {id} = req.params;
-
-    const productUpdate = await productsSchema.updateOne({_id: id}, {
-        $set: req.body
-    });
-
-    res.json(productUpdate);
-});
+router.put('/:id', putProduct);
 
 //Ruta post para borrar un product
-router.delete('/:id', async (req, res)=>{
-    const {id} = req.params;
-
-    const product = await productsSchema.findOneAndDelete({_id: id});
-
-    res.json({product: product})
-});
+router.delete('/:id', deleteProduct);
 
 module.exports = router;

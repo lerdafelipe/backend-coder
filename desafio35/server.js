@@ -2,10 +2,18 @@ const express = require('express');
 const app = express();
 //Routes
 const products = require('./routes/productos.route');
+const mensajes = require('./routes/mensajes.route');
+const info = require('./routes/info.route');
+const auth = require('./routes/auth.route');
+
+//Function connection database
 const Connection = require('./database/Connection');
-//
+Connection();
+
+//Compression
 const compression = require('compression');
 app.use(compression());
+
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const mongoStore = require('connect-mongo');
@@ -26,114 +34,33 @@ app.use(session({
         maxAge: 600000
     }
 }));
+
+//Cors
 const cors = require('cors');
 app.use(cors({ origin: '*' }));
+
+//express extensions
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-Connection();
 
 //routes
 app.use('/productos', products);
+app.use('/info', info);
+app.use('/mensajes', mensajes);
+app.use('auth', auth);
 
+//Passport
 const passport = require('passport');
-const FacebookStrategy = require('passport-facebook').Strategy;
-
-const FACEBOOK_CLIENT_ID = 15;
-const FACEBOOK_CLIENT_SECRET = '';
-
-passport.use(new FacebookStrategy({
-    clientID: FACEBOOK_CLIENT_ID,
-    clientSecret: FACEBOOK_CLIENT_SECRET,
-    callbackURL: '/auth/facebook/callback',
-    profileFields: ['id', 'first_name', 'last_name', 'picture', 'email'],
-    scope: ['email']
-},
-    function (accesToken, refreshToken, profile, done) {
-        console.log(profile);
-        let userProfile = profile;
-        done(null, userProfile);
-    })
-);
-
-passport.serializeUser(function (user, done) {
-    done(null, user)
-});
-passport.deserializeUser(function (usuario, done) {
-    done(null, usuario);
-})
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/log', (req, res) => {
-    if (req.isAuthenticated()) {
-        res.json({ log: true })
-    } else res.json({ log: false })
-});
-
-app.get('/auth/facebook', passport.authenticate('facebook'));
-
-app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-    successRedirect: '/',
-    failureRedirect: '/fail-login'
-})
-);
-
-app.get('/fail-login', (req, res) => {
-    res.send('error de logueo')
-});
-
-app.get('/logout', (req, res) => {
-    req.logout();
-    res.send('Success!');
-});
-
-app.get('/info-user', (req, res) => {
-    if (req.isAuthenticated()) {
-        res.json({ user: req.user });
-    }
-});
-
-///////////////////////////////
-// DESAFIO CLASE 28
-///////////////////////////////
-
-
-//const { fork } = require('child_process');
-
-app.get('/info', (req, res) => {
-    res.json({
-        Argumentos_de_entrada: process.argv,
-        Path: process.execPath,
-        plataforma: process.platform,
-        id: process.pid,
-        node_version: process.version,
-        carpeta: process.cwd(),
-        uso_memoria: process.memoryUsage(),
-        numProcess: require('os').cpus().length
-    })
-});
-
-
-/*app.get('/randoms', (req, res) => {
-    const cant = req.query.cant || 100000000;
-    const calculo = fork('./random.js');
-    calculo.send(cant);
-    calculo.on('message', numeros => {
-        res.send(numeros);
-    })
-});*/
-
-
-///////////////////////////////
-// DESAFIO CLASE 28
-///////////////////////////////
-
+//Port
 const PORT = parseInt(process.argv[2]) || 8080;
 
-
+//Server
 const server = app.listen(PORT, () => {
     console.log('Servidor escuchando en el puerto 8080');
 });
