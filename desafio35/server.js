@@ -49,7 +49,7 @@ app.use(express.static('public'));
 app.use('/productos', products);
 app.use('/info', info);
 app.use('/mensajes', mensajes);
-app.use('auth', auth);
+app.use('/auth', auth);
 
 //Passport
 const passport = require('passport');
